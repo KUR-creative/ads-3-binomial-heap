@@ -1,0 +1,23 @@
+init_heap
+    빈 binomial heap 생성
+    힙을 null로 설정.
+min_elem
+    힙에서 최소값 찾기(root-list 순회)
+    최소값을 가진 노드의 포인터를 반환.
+
+*
+link_tree(child,root)
+    binomial_tree 두개 연결
+    걍 연결하면 됨
+    
+merge_roots
+    deg의 오름차순으로 리스트를 머징함(Theta(n))
+merge_heap
+
+    
+The BINOMIAL-HEAP-UNION procedure repeatedly links
+binomial trees whose roots have the same degree.
+
+1) binomial link
+2) merge (list) roots
+3) merge heap
