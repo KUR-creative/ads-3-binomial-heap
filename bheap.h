@@ -11,14 +11,15 @@
 typedef int Key;
 
 typedef struct Node {
-    Key          key;
-    int          degree;
-    struct Node* parent;
-    struct Node* child;
-    struct Node* sibling;
+    Key             key;
+    int             degree;
+    struct Node*    parent;
+    struct Node*    child;
+    struct Node*    sibling;
 } Node;
 
 void print_node(Node* node);
 int link_tree(Node* child, Node* parent);
+void print_tree(Node* root);
 
 #endif // _BHEAP_H_
