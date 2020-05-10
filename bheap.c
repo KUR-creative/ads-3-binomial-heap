@@ -10,7 +10,8 @@ void print_node(Node* node)
         node->parent, node->child, node->sibling);
 }
 
-void print_tree_(Node* root, int depth, int is_last){
+void print_tree_(Node* root, int depth, int is_last)
+{
     int deg = root->degree;
     Node* children[deg];
 
@@ -66,5 +67,25 @@ int link_tree(Node* parent, Node* child)
     parent->degree += 1;
 
     return SUCCESS;
+}
+
+// NOTE: side effect! It changes heap1 and heap2.
+Node* merge_roots(Node* heap1, Node* heap2)
+{
+    /*
+    Node* h1 = heap1;
+    Node* h2 = heap2;
+    while(h1 || h2){
+        if(
+    }
+    */
+    /*
+    */
+    Node* h1last = heap1;
+    while(h1last->sibling){
+        h1last = h1last->sibling;
+    }
+    h1last->sibling = heap2;
+    return heap1;
 }
 

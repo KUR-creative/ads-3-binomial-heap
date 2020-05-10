@@ -19,7 +19,9 @@ typedef struct Node {
 } Node;
 
 void print_node(Node* node);
-int link_tree(Node* child, Node* parent);
 void print_tree(Node* root);
+
+int link_tree(Node* child, Node* parent);
+Node* merge_roots(Node* heap1, Node* heap2);
 
 #endif // _BHEAP_H_
