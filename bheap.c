@@ -69,23 +69,57 @@ int link_tree(Node* parent, Node* child)
     return SUCCESS;
 }
 
+void print_roots(Node* head, Node* tail)
+{
+    Node* now = head;
+    if(tail){
+        while(now && now->sibling && now != tail->sibling){
+            printf("%d ", now->degree);
+            now = now->sibling;
+        }
+    }else{
+        for(Node* now = head; now; now = now->sibling){
+            printf("%d ", now->degree);
+        }
+    }
+    puts("");
+}
+
+#include <limits.h>
 // NOTE: side effect! It changes heap1 and heap2.
 Node* merge_roots(Node* heap1, Node* heap2)
 {
-    /*
-    Node* h1 = heap1;
+    Node* h1 = heap1; 
     Node* h2 = heap2;
-    while(h1 || h2){
-        if(
+    Node* head = ((h1->degree <= h2->degree) ? h1 : h2);
+    Node* now = head;
+    while(now){
+/*
+printf("------------------\n");
+printf("now[%d] h1[%d] h2[%d] ", (now ? now->degree : -1), (h1 ? h1->degree : -1), (h2 ? h2->degree : -1));
+printf("roots: "); print_roots(head, NULL); puts("");
+printf("roots: "); print_roots(head, now); puts("");
+*/
+        int sib_deg = (now->sibling ? 
+            now->sibling->degree : INT_MAX);
+        if(now == h1){
+            int h2deg = (h2 ? h2->degree : INT_MAX);
+            h1 = h1->sibling;
+            if(h2deg < sib_deg){
+                now->sibling = h2;
+            }
+            now = now->sibling;
+        }
+        else if(now == h2){
+            int h1deg = (h1 ? h1->degree : INT_MAX);
+            h2 = h2->sibling;
+            if(h1deg < sib_deg){
+                now->sibling = h1;
+            }
+            now = now->sibling;
+        }
     }
-    */
-    /*
-    */
-    Node* h1last = heap1;
-    while(h1last->sibling){
-        h1last = h1last->sibling;
-    }
-    h1last->sibling = heap2;
-    return heap1;
+
+    return head;
 }
 
