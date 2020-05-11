@@ -79,9 +79,28 @@ TEST(merge_roots, 2){
     ASSERT_EQ(degree(merged,4), 7);
 }
 
+TEST(merge_roots, nil_h1){
+    size_t size = sizeof(Node);
+    Node* roots1 = NULL;
+    Node roots2[3] = { 
+        {0,2,0,0,&roots2[1]},
+        {0,3,0,0,&roots2[2]},
+        {0,4,0,0,0},
+    };
+    printf("r1s: "); print_roots(roots1, NULL);
+    printf("r2s: "); print_roots(roots2, NULL);
+
+    Node* merged = merge_roots(roots1, roots2);
+    printf("\nmerged: "); print_roots(merged, NULL);
+
+    ASSERT_EQ(degree(merged,0), 2);
+    ASSERT_EQ(degree(merged,1), 3);
+    ASSERT_EQ(degree(merged,2), 4);
+}
+
 TEST(merge_roots, test){
-    //int seed = time(NULL);
-    int seed = 1589194680;
+    int seed = time(NULL);
+    //int seed = 1589194680;
     srand(seed);
     printf("\nseed: %d \n", seed);
     for(int no = 1; no < 101; no++)
@@ -90,7 +109,6 @@ TEST(merge_roots, test){
     Node roots1[1000] = { 0, };
     Node roots2[1000] = { 0, };
 
-    //int len1 = (no == 1 ? 0 : (rand() % (no * 10) + 1));
     int len1 = rand() % (no * 10) + 1;
     roots1[0].degree = (rand() % 10 + 1);
     for(int i = 1; i < len1; i++){
@@ -99,7 +117,6 @@ TEST(merge_roots, test){
         roots1[i - 1].sibling = &roots1[i]; 
     }
 
-    //int len2 = (no == 2 ? 0 : (rand() % (no * 10) + 1));
     int len2 = rand() % (no * 10) + 1;
     roots2[0].degree = (rand() % 10 + 1);
     for(int i = 1; i < len2; i++){

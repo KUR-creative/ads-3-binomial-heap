@@ -89,8 +89,9 @@ void print_roots(Node* head, Node* tail)
 // NOTE: side effect! It changes heap1 and heap2.
 Node* merge_roots(Node* heap1, Node* heap2)
 {
-    Node* h1 = heap1; 
-    Node* h2 = heap2;
+    Node* h1 = heap1; if(h1 == NULL) return heap2;
+    Node* h2 = heap2; if(h2 == NULL) return heap1;
+
     Node* head = ((h1->degree <= h2->degree) ? h1 : h2);
     Node* now = head;
     while(now){
