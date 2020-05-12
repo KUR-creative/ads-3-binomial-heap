@@ -21,8 +21,10 @@ void print_tree_(Node* root, int depth, int is_last)
 
     int num_child = 0;
     Node* child = root->child;
+    //printf("root[%p]\n", root);
     while(child){
         // Save children from back to front.
+        //printf("sib[%p]\n", child);
         children[deg - 1 - num_child] = child;
         num_child++;
         child = child->sibling;

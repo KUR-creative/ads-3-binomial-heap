@@ -352,6 +352,84 @@ TEST(merge_heap, case3_link_two_deg2_heap_to_deg4_heap){
         ASSERT_EQ(node[i].sibling, expected[i].sibling);
     }
 }
+
+TEST(merge_heap, case1_just_link_roots){
+    const int num_node = 3;
+    Node node[num_node] = {
+        {1, 0,   NULL,   NULL,   NULL},
+        {2, 1,   NULL, node+2,   NULL},
+        {3, 0, node+1,   NULL,   NULL},
+    };
+    Node expected[num_node] = {
+        {1, 0,   NULL,   NULL, node+1},
+        {2, 1,   NULL, node+2,   NULL},
+        {3, 0, node+1,   NULL,   NULL},
+    };
+
+    Node* h1 = node+0; Node* h2 = node+1; Node* merged; 
+    merge_heap(h1, h2, &merged);
+
+    ASSERT_EQ(merged, h1);
+    for(int i = 0; i < num_node; i++){
+        //printf("i[%d]", i);
+        ASSERT_EQ(node[i].key,     expected[i].key);
+        ASSERT_EQ(node[i].degree,  expected[i].degree);
+        ASSERT_EQ(node[i].parent,  expected[i].parent);
+        ASSERT_EQ(node[i].child,   expected[i].child);
+        ASSERT_EQ(node[i].sibling, expected[i].sibling);
+    }
+}
+
+TEST(merge_heap, case2_included){
+    const int num_node = 6;
+    Node node[num_node] = {
+        { 1, 0,   NULL,   NULL, node+1},
+        {10, 1,   NULL, node+2,   NULL},
+        {15, 0, node+1,   NULL,   NULL},
+        { 5, 0,   NULL,   NULL, node+4},
+        {20, 1,   NULL, node+5,   NULL},
+        {25, 0, node+4,   NULL,   NULL},
+    };
+    Node expected[num_node] = {
+        { 1, 1,   NULL, node+3, node+1},
+        {10, 2,   NULL, node+4,   NULL},
+        {15, 0, node+1,   NULL,   NULL},
+        { 5, 0, node+0,   NULL,   NULL},
+        {20, 1, node+1, node+5, node+2},
+        {25, 0, node+4,   NULL,   NULL},
+    };
+
+
+    Node* h1 = node+0; Node* h2 = node+3; Node* merged; 
+    merge_heap(h1, h2, &merged);
+
+    puts("------------");
+    for(int i = 0; i < num_node; i++){
+        printf("i(%d):[%p]\n", i,node + i);
+    }
+    puts("\n------------");
+    /*
+    */
+    //printf("<%p>", node);
+    puts("---:0");
+    print_tree(node);
+    puts("---:1");
+    print_tree(node+1);
+
+    ASSERT_EQ(merged, h1);
+    for(int i = 0; i < num_node; i++){
+        /*
+        printf("i[%d] ", i);
+        print_node(node + i);
+        */
+        ASSERT_EQ(node[i].key,     expected[i].key);
+        ASSERT_EQ(node[i].degree,  expected[i].degree);
+        ASSERT_EQ(node[i].parent,  expected[i].parent);
+        ASSERT_EQ(node[i].child,   expected[i].child);
+        ASSERT_EQ(node[i].sibling, expected[i].sibling);
+    }
+}
+
 //-------------------------------------------------------------------------------------
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
