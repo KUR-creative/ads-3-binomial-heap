@@ -23,7 +23,7 @@ void print_node(Node* node);
 void print_tree(Node* root);
 void print_roots(Node* head, Node* tail);
 
-int link_tree(Node* child, Node* parent);
+int link_tree(Node* parent, Node* child);
 Node* merge_roots(Node* heap1, Node* heap2);
 int merge_heap(Node* heap1, Node* heap2, Node** merged);
 
