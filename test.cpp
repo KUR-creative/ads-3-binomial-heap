@@ -272,10 +272,56 @@ TEST(merge_roots, property_test){
 }
 
 TEST(merge_heap, merge_2_empty_heap_return_empty_heap){
-    Node* h1 = NULL; Node* h2 = NULL;
-    Node* merged;
+    Node* h1 = NULL; Node* h2 = NULL; Node* merged;
     merge_heap(h1, h2, &merged);
     ASSERT_EQ(merged, (Node*)NULL);
+}
+
+TEST(merge_heap, merge_empty_and_1node_return_1node){
+    Node node = {2, 0, NULL, NULL, NULL};
+    Node* h1 = NULL; Node* h2 = &node; Node* merged;
+    merge_heap(h1, h2, &merged);
+    ASSERT_EQ(merged, &node);
+}
+
+TEST(merge_heap, case4_link_two_deg2_heap_to_deg4_heap){
+    const int num_node = 4;
+    Node node[num_node] = {
+        {1, 1,   NULL, node+1,   NULL},
+        {2, 0, node+0,   NULL,   NULL},
+        {3, 1,   NULL, node+3,   NULL},
+        {4, 0, node+2,   NULL,   NULL},
+    };
+    Node expected[num_node] = {
+        {1, 2,   NULL, node+2,   NULL},
+        {2, 0, node+0,   NULL,   NULL},
+        {3, 1, node+0, node+3, node+1},
+        {4, 0, node+2,   NULL,   NULL},
+    };
+
+    Node* h1 = node+2; Node* h2 = node+0; Node* merged; 
+    merge_heap(h1, h2, &merged);
+
+    ASSERT_EQ(merged, h2);
+    /*
+    puts("\n----ptrs----");
+    printf("[%p]",node);
+    printf("[%p]",node+1);
+    printf("[%p]",node+2);
+    printf("[%p]",node+3);
+    puts("\n----root----");
+    print_node(merged);
+    puts("\n----result----");
+    print_tree(merged);
+    */
+    for(int i = 0; i < num_node; i++){
+        //printf("i[%d]", i);
+        ASSERT_EQ(node[i].key,     expected[i].key);
+        ASSERT_EQ(node[i].degree,  expected[i].degree);
+        ASSERT_EQ(node[i].parent,  expected[i].parent);
+        ASSERT_EQ(node[i].child,   expected[i].child);
+        ASSERT_EQ(node[i].sibling, expected[i].sibling);
+    }
 }
 
 //-------------------------------------------------------------------------------------

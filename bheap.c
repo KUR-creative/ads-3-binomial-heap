@@ -6,9 +6,12 @@
 
 void print_node(Node* node)
 {
-    printf("k[%d] deg[%d] p[%p] child[%p] sibling[%p]",
-        node->key, node->degree, 
-        node->parent, node->child, node->sibling);
+    if(node){
+        printf(
+            "k[%d] deg[%d] p[%p] child[%p] sibling[%p]\n",
+            node->key, node->degree, 
+            node->parent, node->child, node->sibling);
+    }
 }
 
 void print_tree_(Node* root, int depth, int is_last)
@@ -62,11 +65,14 @@ void print_tree(Node* root)
 
 int link_tree(Node* parent, Node* child)
 {
+    //printf("\nlink p[%p] <-> c[%p]\n", parent, child);
+    //puts("----before----"); puts("parent"); print_node(parent); puts("child"); print_node(child);
     child->parent = parent;
     child->sibling = parent->child;
     parent->child = child;
     parent->degree += 1;
 
+    //puts("----after----"); puts("parent"); print_node(parent); puts("child"); print_node(child);
     return SUCCESS;
 }
 
@@ -127,5 +133,39 @@ printf("roots: "); print_roots(head, now); puts("");
 int merge_heap(Node* heap1, Node* heap2, Node** merged)
 {
     *merged = merge_roots(heap1, heap2);
+    if(*merged == NULL){ return SUCCESS; }
+
+    /*
+    puts("\n----");
+    print_node(*merged);
+    print_node((*merged)->sibling);
+    print_node(heap1);
+    print_node(heap2);
+    puts("----");
+    */
+    Node* prev = NULL;
+    Node* curr = *merged;
+    Node* next = (*merged)->sibling;
+    while(next){
+        if(curr->degree != next->degree ||
+           (next->sibling &&
+            next->sibling->degree == curr->degree)) 
+        {
+            prev = curr;
+            curr = next;
+        }else if(curr->key <= next->key){
+            curr->sibling = next->sibling;
+            link_tree(curr, next);
+        }else{
+            if(prev == NULL){
+                *merged = next;
+            }else{
+                prev->sibling = next; // TODO: Test it.
+            }
+            link_tree(next, curr);
+            curr = next;
+        }
+        next = curr->sibling;
+    }
     return SUCCESS;
 }
