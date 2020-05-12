@@ -415,6 +415,8 @@ TEST(merge_heap, case2_included){
     print_tree(node);
     puts("---:1");
     print_tree(node+1);
+    puts("---:merged");
+    print_heap(merged);
 
     ASSERT_EQ(merged, h1);
     for(int i = 0; i < num_node; i++){

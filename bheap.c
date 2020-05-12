@@ -65,6 +65,13 @@ void print_tree(Node* root)
     print_tree_(root, 0, FALSE);
 }
 
+void print_heap(Node* heap)
+{
+    for(Node* curr = heap; curr; curr = curr->sibling){
+        print_tree(curr);
+    }
+}
+
 int link_tree(Node* parent, Node* child)
 {
     //printf("\nlink p[%p] <-> c[%p]\n", parent, child);
