@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 #include "bheap.h"
 
 
@@ -85,7 +86,6 @@ void print_roots(Node* head, Node* tail)
     puts("");
 }
 
-#include <limits.h>
 // NOTE: side effect! It changes heap1 and heap2.
 Node* merge_roots(Node* heap1, Node* heap2)
 {
@@ -124,3 +124,8 @@ printf("roots: "); print_roots(head, now); puts("");
     return head;
 }
 
+int merge_heap(Node* heap1, Node* heap2, Node** merged)
+{
+    *merged = merge_roots(heap1, heap2);
+    return SUCCESS;
+}

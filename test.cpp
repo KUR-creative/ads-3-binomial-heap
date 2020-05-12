@@ -19,142 +19,6 @@ TEST(link_tree, test){
     ASSERT_EQ(parent.child, &child);
 }
 
-int len_roots(Node* roots){
-    int len = 0;
-    Node* cursor = roots;
-    while(cursor){
-        len++;
-        cursor = cursor->sibling;
-    }
-    return len;
-}
-
-int degree(Node* head, int step){
-    Node* now = head;
-    for(int i = 0; i < step; i++){
-        if(now){
-            now = now->sibling;
-        }else{
-            return -1;
-        }
-    }
-    return (now ? now->degree : -1);
-}
-TEST(merge_roots, 1){
-    Node roots1[1] = { {0,3,0,0,0} };
-    Node roots2[1] = { {0,1,0,0,0} };
-    printf("r1s: "); print_roots(roots1, NULL);
-    printf("r2s: "); print_roots(roots2, NULL);
-
-    Node* merged = merge_roots(roots1, roots2);
-    printf("\nmerged: "); print_roots(merged, NULL);
-
-    ASSERT_EQ(degree(merged,0), 1);
-    ASSERT_EQ(degree(merged,1), 3);
-    ASSERT_EQ(merged, roots2);
-    ASSERT_EQ(merged->sibling, roots1);
-}
-
-TEST(merge_roots, 2){
-    size_t size = sizeof(Node);
-    Node roots1[2] = { 
-        {0,1,0,0,&roots1[1]},
-        {0,7,0,0,0},
-    };
-    Node roots2[3] = { 
-        {0,2,0,0,&roots2[1]},
-        {0,3,0,0,&roots2[2]},
-        {0,4,0,0,0},
-    };
-    printf("r1s: "); print_roots(roots1, NULL);
-    printf("r2s: "); print_roots(roots2, NULL);
-
-    Node* merged = merge_roots(roots1, roots2);
-    printf("\nmerged: "); print_roots(merged, NULL);
-
-    ASSERT_EQ(degree(merged,0), 1);
-    ASSERT_EQ(degree(merged,1), 2);
-    ASSERT_EQ(degree(merged,2), 3);
-    ASSERT_EQ(degree(merged,3), 4);
-    ASSERT_EQ(degree(merged,4), 7);
-}
-
-TEST(merge_roots, nil_h1){
-    size_t size = sizeof(Node);
-    Node* roots1 = NULL;
-    Node roots2[3] = { 
-        {0,2,0,0,&roots2[1]},
-        {0,3,0,0,&roots2[2]},
-        {0,4,0,0,0},
-    };
-    printf("r1s: "); print_roots(roots1, NULL);
-    printf("r2s: "); print_roots(roots2, NULL);
-
-    Node* merged = merge_roots(roots1, roots2);
-    printf("\nmerged: "); print_roots(merged, NULL);
-
-    ASSERT_EQ(degree(merged,0), 2);
-    ASSERT_EQ(degree(merged,1), 3);
-    ASSERT_EQ(degree(merged,2), 4);
-}
-
-TEST(merge_roots, test){
-    int seed = time(NULL);
-    //int seed = 1589194680;
-    srand(seed);
-    printf("\nseed: %d \n", seed);
-    for(int no = 1; no < 101; no++)
-    {
-    // Generate random root list
-    Node roots1[1000] = { 0, };
-    Node roots2[1000] = { 0, };
-
-    int len1 = rand() % (no * 10) + 1;
-    roots1[0].degree = (rand() % 10 + 1);
-    for(int i = 1; i < len1; i++){
-        roots1[i].degree = 
-            roots1[i - 1].degree + (rand() % 10 + 1);
-        roots1[i - 1].sibling = &roots1[i]; 
-    }
-
-    int len2 = rand() % (no * 10) + 1;
-    roots2[0].degree = (rand() % 10 + 1);
-    for(int i = 1; i < len2; i++){
-        roots2[i].degree = 
-            roots2[i - 1].degree + (rand() % 10 + 1);
-        roots2[i - 1].sibling = &roots2[i]; 
-    }
-
-    //printf("r1s: "); print_roots(roots1, NULL);
-    //printf("r2s: "); print_roots(roots2, NULL);
-    Node* new_roots = merge_roots(roots1, roots2);
-
-    // length of new_roots = len1 + len2
-    int len = len_roots(new_roots);
-    ASSERT_EQ(len, len1 + len2);
-
-    // TODO: 현재 한 쪽 길이 0인 경우 꺼놓은 상태
-    // TODO: sorted 체크하는 코드 짜고, 길이 0 체크도 켜기.
-    //printf("no = %d \n", no);
-    Node* prev = NULL;
-    Node* now = new_roots;
-    while(now){
-        len++;
-        prev = now;
-        now = now->sibling;
-        if(now != NULL){
-            ASSERT_LE(prev->degree, now->degree);
-            //if(prev->degree > now->degree){ puts("prev->degree > now->degree"); }
-        }
-    }
-
-    // new_roots must be sorted in ascending order of degree
-
-    /*
-    */
-    }
-}
-
 //TEST(print_tree, test){
 TEST(DISABLED_print_tree, test){
     { puts("n = 1 ----------------");
@@ -268,6 +132,150 @@ TEST(DISABLED_print_tree, test){
                              //       *--14--15
     print_tree(&n[0]); puts("");
      puts("\n"); }
+}
+
+
+int len_roots(Node* roots){
+    int len = 0;
+    Node* cursor = roots;
+    while(cursor){
+        len++;
+        cursor = cursor->sibling;
+    }
+    return len;
+}
+
+int degree(Node* head, int step){
+    Node* now = head;
+    for(int i = 0; i < step; i++){
+        if(now){
+            now = now->sibling;
+        }else{
+            return -1;
+        }
+    }
+    return (now ? now->degree : -1);
+}
+TEST(merge_roots, 1){
+    Node roots1[1] = { {0,3,0,0,0} };
+    Node roots2[1] = { {0,1,0,0,0} };
+    printf("r1s: "); print_roots(roots1, NULL);
+    printf("r2s: "); print_roots(roots2, NULL);
+
+    Node* merged = merge_roots(roots1, roots2);
+    printf("\nmerged: "); print_roots(merged, NULL);
+
+    ASSERT_EQ(degree(merged,0), 1);
+    ASSERT_EQ(degree(merged,1), 3);
+    ASSERT_EQ(merged, roots2);
+    ASSERT_EQ(merged->sibling, roots1);
+}
+
+TEST(merge_roots, 2){
+    size_t size = sizeof(Node);
+    Node roots1[2] = { 
+        {0,1,0,0,&roots1[1]},
+        {0,7,0,0,0},
+    };
+    Node roots2[3] = { 
+        {0,2,0,0,&roots2[1]},
+        {0,3,0,0,&roots2[2]},
+        {0,4,0,0,0},
+    };
+    printf("r1s: "); print_roots(roots1, NULL);
+    printf("r2s: "); print_roots(roots2, NULL);
+
+    Node* merged = merge_roots(roots1, roots2);
+    printf("\nmerged: "); print_roots(merged, NULL);
+
+    ASSERT_EQ(degree(merged,0), 1);
+    ASSERT_EQ(degree(merged,1), 2);
+    ASSERT_EQ(degree(merged,2), 3);
+    ASSERT_EQ(degree(merged,3), 4);
+    ASSERT_EQ(degree(merged,4), 7);
+}
+
+TEST(merge_roots, nil_h1){
+    size_t size = sizeof(Node);
+    Node* roots1 = NULL;
+    Node roots2[3] = { 
+        {0,2,0,0,&roots2[1]},
+        {0,3,0,0,&roots2[2]},
+        {0,4,0,0,0},
+    };
+    printf("r1s: "); print_roots(roots1, NULL);
+    printf("r2s: "); print_roots(roots2, NULL);
+
+    Node* merged = merge_roots(roots1, roots2);
+    printf("\nmerged: "); print_roots(merged, NULL);
+
+    ASSERT_EQ(degree(merged,0), 2);
+    ASSERT_EQ(degree(merged,1), 3);
+    ASSERT_EQ(degree(merged,2), 4);
+}
+
+TEST(merge_roots, property_test){
+    int seed = time(NULL);
+    //int seed = 1589194680;
+    srand(seed);
+    printf("\nseed: %d \n", seed);
+    for(int no = 1; no < 101; no++)
+    {
+    // Generate random root list
+    Node roots1[1000] = { 0, };
+    Node roots2[1000] = { 0, };
+
+    int len1 = rand() % (no * 10) + 1;
+    roots1[0].degree = (rand() % 10 + 1);
+    for(int i = 1; i < len1; i++){
+        roots1[i].degree = 
+            roots1[i - 1].degree + (rand() % 10 + 1);
+        roots1[i - 1].sibling = &roots1[i]; 
+    }
+
+    int len2 = rand() % (no * 10) + 1;
+    roots2[0].degree = (rand() % 10 + 1);
+    for(int i = 1; i < len2; i++){
+        roots2[i].degree = 
+            roots2[i - 1].degree + (rand() % 10 + 1);
+        roots2[i - 1].sibling = &roots2[i]; 
+    }
+
+    //printf("r1s: "); print_roots(roots1, NULL);
+    //printf("r2s: "); print_roots(roots2, NULL);
+    Node* new_roots = merge_roots(roots1, roots2);
+
+    // length of new_roots = len1 + len2
+    int len = len_roots(new_roots);
+    ASSERT_EQ(len, len1 + len2);
+
+    // TODO: 현재 한 쪽 길이 0인 경우 꺼놓은 상태
+    // TODO: sorted 체크하는 코드 짜고, 길이 0 체크도 켜기.
+    //printf("no = %d \n", no);
+    Node* prev = NULL;
+    Node* now = new_roots;
+    while(now){
+        len++;
+        prev = now;
+        now = now->sibling;
+        if(now != NULL){
+            ASSERT_LE(prev->degree, now->degree);
+            //if(prev->degree > now->degree){ puts("prev->degree > now->degree"); }
+        }
+    }
+
+    // new_roots must be sorted in ascending order of degree
+
+    /*
+    */
+    }
+}
+
+TEST(merge_heap, merge_2_empty_heap_return_empty_heap){
+    Node* h1 = NULL; Node* h2 = NULL;
+    Node* merged;
+    merge_heap(h1, h2, &merged);
+    ASSERT_EQ(merged, (Node*)NULL);
 }
 
 //-------------------------------------------------------------------------------------
