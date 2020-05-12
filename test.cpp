@@ -324,6 +324,34 @@ TEST(merge_heap, case4_link_two_deg2_heap_to_deg4_heap){
     }
 }
 
+TEST(merge_heap, case3_link_two_deg2_heap_to_deg4_heap){
+    const int num_node = 4;
+    Node node[num_node] = {
+        {1, 1,   NULL, node+1,   NULL},
+        {2, 0, node+0,   NULL,   NULL},
+        {3, 1,   NULL, node+3,   NULL},
+        {4, 0, node+2,   NULL,   NULL},
+    };
+    Node expected[num_node] = {
+        {1, 2,   NULL, node+2,   NULL},
+        {2, 0, node+0,   NULL,   NULL},
+        {3, 1, node+0, node+3, node+1},
+        {4, 0, node+2,   NULL,   NULL},
+    };
+
+    Node* h1 = node+0; Node* h2 = node+2; Node* merged; 
+    merge_heap(h1, h2, &merged);
+
+    ASSERT_EQ(merged, h1);
+    for(int i = 0; i < num_node; i++){
+        //printf("i[%d]", i);
+        ASSERT_EQ(node[i].key,     expected[i].key);
+        ASSERT_EQ(node[i].degree,  expected[i].degree);
+        ASSERT_EQ(node[i].parent,  expected[i].parent);
+        ASSERT_EQ(node[i].child,   expected[i].child);
+        ASSERT_EQ(node[i].sibling, expected[i].sibling);
+    }
+}
 //-------------------------------------------------------------------------------------
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );

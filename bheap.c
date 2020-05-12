@@ -157,10 +157,10 @@ int merge_heap(Node* heap1, Node* heap2, Node** merged)
             curr->sibling = next->sibling;
             link_tree(curr, next);
         }else{
-            if(prev == NULL){
-                *merged = next;
-            }else{
+            if(prev){
                 prev->sibling = next; // TODO: Test it.
+            }else{
+                *merged = next;
             }
             link_tree(next, curr);
             curr = next;
