@@ -182,8 +182,14 @@ int merge_heap(Node* heap1, Node* heap2, Node** merged)
     return SUCCESS;
 }
 
-int insert(Node* heap, Key key)
+int insert(Node** heap, Node* node)
 {
+    node->degree  = 0;
+    node->parent  = NULL;
+    node->child   = NULL;
+    node->sibling = NULL;
+    merge_heap(*heap, node, heap);
+    return SUCCESS;
 }
 
 int min_key(Node* heap)
@@ -197,29 +203,46 @@ int min_key(Node* heap)
     return min;
 }
 
+/*
 int num_tree_node_(Node* root, int num_node){
     Node* child = root->child;
     if(child){
         int num_child = 0;
         while(child){
-            num_child++;
+            //num_child++;
+//printf("down root_key[%d] #node[%d] #child[%d]\n", root->key, num_node, num_child);
+            num_child += num_tree_node_(
+                child, num_node + num_child);
             child = child->sibling;
         }
-        return num_tree_node_(
-            root->child, num_node + num_child);
-    }else{
         return num_node;
+    }else{
+        printf("up   root_key[%d] #node[%d]\n", root->key, num_node);
+        //return num_node;
+        return 1;
+    }
+}
+*/
+
+// TODO: rail recursion version?
+int num_tree_node_(Node* parent, int num_node){
+    if(parent){
+        Node* child = parent->child;
+        int num_child = 1;
+        while(child){
+            num_child += num_tree_node_(child,0);
+            child = child->sibling;
+        }
+        return num_child;
+    }else{
+        return 0;
     }
 }
 
-/*
- * ret:
- *  -1  Invalid tree
- *   N  Number of nodes in tree 
- */
 int num_tree_node(Node* root)
 {
-    return 1 + num_tree_node_(root, 0); // 1 is root.
+    //return 1 + num_tree_node_(root, 0); // 1 is root.
+    return num_tree_node_(root, 0);
 }
 
 int is_pow_of_2(int x){
@@ -245,6 +268,7 @@ int is_min_heap_tree(Node* root)
 int is_heap(Node* heap)
 {
     for(Node* root = heap; root; root = root->sibling){
+        //printf("root_key[%d] num_tree_node[%d] is_min_heap_tree[%d]\n", root->key, num_tree_node(root), is_min_heap_tree(root));
         if((! is_pow_of_2(num_tree_node(root))) ||
            (! is_min_heap_tree(root)))
         {

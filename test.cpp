@@ -435,10 +435,12 @@ TEST(merge_heap, case2_included){
 TEST(heap, prop_test){
     // empty heap
     ASSERT_TRUE(is_heap(NULL)); 
+    ASSERT_EQ(num_tree_node(NULL), 0);
 
     {// 1 elem heap
     Node node = {  1, 0, NULL, NULL, NULL };
     ASSERT_TRUE(is_heap(&node)); 
+    ASSERT_EQ(num_tree_node(&node), 1);
     }
 
     {// valid heap
@@ -451,7 +453,9 @@ TEST(heap, prop_test){
         {20, 1, node+1, node+5, node+2},
         {25, 0, node+4,   NULL,   NULL},
     };
+    //puts("~~1~~");
     ASSERT_EQ(num_tree_node(node), 2);
+    //puts("~~2~~");
     ASSERT_EQ(num_tree_node(node+1), 4);
 
     ASSERT_TRUE(is_heap(node));
@@ -471,22 +475,67 @@ TEST(heap, prop_test){
     ASSERT_FALSE(is_heap(node));
     ASSERT_EQ(num_tree_node(node), 3);
     }
+
+    {// #node = 8
+    Node n[8];
+    for(int i = 0; i < 8; i++){
+        n[i] = { i, 0, NULL, NULL, NULL };
+    }
+
+    link_tree(&n[0], &n[1]); // 0--1
+    link_tree(&n[2], &n[3]); // 2--3
+    link_tree(&n[0], &n[2]); // 0--1
+                             // |
+                             // *--2--3
+    link_tree(&n[4], &n[5]); // 4--5
+    link_tree(&n[6], &n[7]); // 6--7
+    link_tree(&n[4], &n[6]); // 4--5
+                             // |
+                             // *--6--7
+    link_tree(&n[0], &n[4]); // 0--1
+                             // |
+                             // *--2--3
+                             // |
+                             // *--4--5
+                             //    |
+                             //    *--6--7
+    ASSERT_EQ(num_tree_node(n), 8);
+    }
 }
 
 TEST(heap, insert){
+//TEST(DISABLED_heap, insert){
     { // ascending order insertion
-    Node* heap = NULL; int max = 10000;
+    const int max = 100;//000;
+    Node node[max] = { 0, };
     for(int i = 0; i < max; i++){
+        node[i].key = i;
+    }
+
+    Node* heap = NULL; 
+    for(int i = 0; i < max; i++){
+        printf("======== i:%d ========\n", i);
+        print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
-        insert(heap, i);
+        insert(&heap, node+i);
+        ASSERT_EQ(min_key(heap), 0);
     }
     }
 
     { // descending order insertion
-    Node* heap = NULL; int max = 10000;
+    const int max = 10000;
+    Node node[max] = { 0, };
     for(int i = 0; i < max; i++){
+        node[i].key = i;
+    }
+
+    Node* heap = NULL;
+    for(int i = max - 1; i >= 0; i--){
+        //printf("======== i:%d ========\n", i);
+        //print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
-        insert(heap, i);
+        insert(&heap, node+i);
+        ASSERT_EQ(min_key(heap), i);
     }
     }
 }

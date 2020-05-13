@@ -27,7 +27,7 @@ void print_heap(Node* heap);
 int link_tree(Node* parent, Node* child);
 Node* merge_roots(Node* heap1, Node* heap2);
 int merge_heap(Node* heap1, Node* heap2, Node** merged);
-int insert(Node* heap, Key key);
+int insert(Node** heap, Node* node);
 int min_key(Node* heap);
 
 int is_heap(Node* heap);
