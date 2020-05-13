@@ -472,6 +472,24 @@ TEST(heap, prop_test){
     ASSERT_EQ(num_tree_node(node), 3);
     }
 }
+
+TEST(heap, insert){
+    { // ascending order insertion
+    Node* heap = NULL; int max = 10000;
+    for(int i = 0; i < max; i++){
+        ASSERT_TRUE(is_heap(heap));
+        insert(heap, i);
+    }
+    }
+
+    { // descending order insertion
+    Node* heap = NULL; int max = 10000;
+    for(int i = 0; i < max; i++){
+        ASSERT_TRUE(is_heap(heap));
+        insert(heap, i);
+    }
+    }
+}
 //-------------------------------------------------------------------------------------
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );

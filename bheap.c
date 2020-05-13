@@ -179,6 +179,10 @@ int merge_heap(Node* heap1, Node* heap2, Node** merged)
     return SUCCESS;
 }
 
+int insert(Node* heap, Key key)
+{
+}
+
 int num_tree_node_(Node* root, int num_node){
     Node* child = root->child;
     if(child){
