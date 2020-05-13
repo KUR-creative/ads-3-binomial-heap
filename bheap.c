@@ -178,3 +178,34 @@ int merge_heap(Node* heap1, Node* heap2, Node** merged)
     }
     return SUCCESS;
 }
+
+int is_valid_degree(int x){
+    // 0 or 2^k is valid degree.
+    return ((x & (x - 1)) == 0);
+}
+
+int num_tree_node_(Node* root, int num_node){
+    Node* child = root->child;
+    if(child){
+        int num_child = 0;
+        while(child){
+            num_child++;
+            child = child->sibling;
+        }
+        return num_tree_node_(
+            root->child, num_node + num_child);
+    }else{
+        return num_node;
+    }
+}
+
+/*
+ * ret:
+ *  -1  Invalid tree
+ *   N  Number of nodes in tree 
+ */
+int num_tree_node(Node* root)
+{
+    return 1 + num_tree_node_(root, 0); // 1 is root.
+}
+

@@ -285,14 +285,14 @@ TEST(merge_heap, merge_empty_and_1node_return_1node){
 }
 
 TEST(merge_heap, case4_link_two_deg2_heap_to_deg4_heap){
-    const int num_node = 4;
-    Node node[num_node] = {
+    const int n_node = 4;
+    Node node[n_node] = {
         {1, 1,   NULL, node+1,   NULL},
         {2, 0, node+0,   NULL,   NULL},
         {3, 1,   NULL, node+3,   NULL},
         {4, 0, node+2,   NULL,   NULL},
     };
-    Node expected[num_node] = {
+    Node expected[n_node] = {
         {1, 2,   NULL, node+2,   NULL},
         {2, 0, node+0,   NULL,   NULL},
         {3, 1, node+0, node+3, node+1},
@@ -314,7 +314,7 @@ TEST(merge_heap, case4_link_two_deg2_heap_to_deg4_heap){
     puts("\n----result----");
     print_tree(merged);
     */
-    for(int i = 0; i < num_node; i++){
+    for(int i = 0; i < n_node; i++){
         //printf("i[%d]", i);
         ASSERT_EQ(node[i].key,     expected[i].key);
         ASSERT_EQ(node[i].degree,  expected[i].degree);
@@ -325,14 +325,14 @@ TEST(merge_heap, case4_link_two_deg2_heap_to_deg4_heap){
 }
 
 TEST(merge_heap, case3_link_two_deg2_heap_to_deg4_heap){
-    const int num_node = 4;
-    Node node[num_node] = {
+    const int n_node = 4;
+    Node node[n_node] = {
         {1, 1,   NULL, node+1,   NULL},
         {2, 0, node+0,   NULL,   NULL},
         {3, 1,   NULL, node+3,   NULL},
         {4, 0, node+2,   NULL,   NULL},
     };
-    Node expected[num_node] = {
+    Node expected[n_node] = {
         {1, 2,   NULL, node+2,   NULL},
         {2, 0, node+0,   NULL,   NULL},
         {3, 1, node+0, node+3, node+1},
@@ -343,7 +343,7 @@ TEST(merge_heap, case3_link_two_deg2_heap_to_deg4_heap){
     merge_heap(h1, h2, &merged);
 
     ASSERT_EQ(merged, h1);
-    for(int i = 0; i < num_node; i++){
+    for(int i = 0; i < n_node; i++){
         //printf("i[%d]", i);
         ASSERT_EQ(node[i].key,     expected[i].key);
         ASSERT_EQ(node[i].degree,  expected[i].degree);
@@ -354,13 +354,13 @@ TEST(merge_heap, case3_link_two_deg2_heap_to_deg4_heap){
 }
 
 TEST(merge_heap, case1_just_link_roots){
-    const int num_node = 3;
-    Node node[num_node] = {
+    const int n_node = 3;
+    Node node[n_node] = {
         {1, 0,   NULL,   NULL,   NULL},
         {2, 1,   NULL, node+2,   NULL},
         {3, 0, node+1,   NULL,   NULL},
     };
-    Node expected[num_node] = {
+    Node expected[n_node] = {
         {1, 0,   NULL,   NULL, node+1},
         {2, 1,   NULL, node+2,   NULL},
         {3, 0, node+1,   NULL,   NULL},
@@ -370,7 +370,7 @@ TEST(merge_heap, case1_just_link_roots){
     merge_heap(h1, h2, &merged);
 
     ASSERT_EQ(merged, h1);
-    for(int i = 0; i < num_node; i++){
+    for(int i = 0; i < n_node; i++){
         //printf("i[%d]", i);
         ASSERT_EQ(node[i].key,     expected[i].key);
         ASSERT_EQ(node[i].degree,  expected[i].degree);
@@ -381,8 +381,8 @@ TEST(merge_heap, case1_just_link_roots){
 }
 
 TEST(merge_heap, case2_included){
-    const int num_node = 6;
-    Node node[num_node] = {
+    const int n_node = 6;
+    Node node[n_node] = {
         { 1, 0,   NULL,   NULL, node+1},
         {10, 1,   NULL, node+2,   NULL},
         {15, 0, node+1,   NULL,   NULL},
@@ -390,7 +390,7 @@ TEST(merge_heap, case2_included){
         {20, 1,   NULL, node+5,   NULL},
         {25, 0, node+4,   NULL,   NULL},
     };
-    Node expected[num_node] = {
+    Node expected[n_node] = {
         { 1, 1,   NULL, node+3, node+1},
         {10, 2,   NULL, node+4,   NULL},
         {15, 0, node+1,   NULL,   NULL},
@@ -404,7 +404,7 @@ TEST(merge_heap, case2_included){
     merge_heap(h1, h2, &merged);
 
     puts("------------");
-    for(int i = 0; i < num_node; i++){
+    for(int i = 0; i < n_node; i++){
         printf("i(%d):[%p]\n", i,node + i);
     }
     puts("\n------------");
@@ -419,7 +419,7 @@ TEST(merge_heap, case2_included){
     print_heap(merged);
 
     ASSERT_EQ(merged, h1);
-    for(int i = 0; i < num_node; i++){
+    for(int i = 0; i < n_node; i++){
         /*
         printf("i[%d] ", i);
         print_node(node + i);
@@ -432,6 +432,42 @@ TEST(merge_heap, case2_included){
     }
 }
 
+TEST(heap, prop_test){
+    // empty heap
+    //ASSERT_TRUE(is_heap(NULL)); 
+
+    {// 1 elem heap
+    Node node = {  1, 0, NULL, NULL, NULL };
+    //ASSERT_TRUE(is_heap(&node)); 
+    }
+
+    {// valid heap
+    const int n_node = 6;
+    Node node[n_node] = {
+        { 1, 1,   NULL, node+3, node+1},
+        {10, 2,   NULL, node+4,   NULL},
+        {15, 0, node+1,   NULL,   NULL},
+        { 5, 0, node+0,   NULL,   NULL},
+        {20, 1, node+1, node+5, node+2},
+        {25, 0, node+4,   NULL,   NULL},
+    };
+    //ASSERT_TRUE(is_heap(node));
+    ASSERT_EQ(num_tree_node(node), 2);
+    ASSERT_EQ(num_tree_node(node+1), 4);
+    }
+
+    {// invalid tree
+    const int n_node = 3;
+    Node node[n_node] = {
+        {0, 1,   NULL, node+1,   NULL},
+        {1, 0, node+0,   NULL, node+2},
+        {2, 0, node+0,   NULL,   NULL},
+    };
+    ASSERT_EQ(num_tree_node(node), 3);
+    }
+    /*
+    */
+}
 //-------------------------------------------------------------------------------------
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
