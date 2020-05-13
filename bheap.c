@@ -183,6 +183,17 @@ int insert(Node* heap, Key key)
 {
 }
 
+int min_key(Node* heap)
+{
+    Key min = INT_MAX;
+    for(Node* root = heap; root; root = root->sibling){
+        if(min > root->key){
+            min = root->key;
+        }
+    }
+    return min;
+}
+
 int num_tree_node_(Node* root, int num_node){
     Node* child = root->child;
     if(child){

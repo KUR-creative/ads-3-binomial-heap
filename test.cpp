@@ -490,6 +490,35 @@ TEST(heap, insert){
     }
     }
 }
+
+TEST(heap, min_key){
+    {
+    const int n_node = 6;
+    Node node[n_node] = {
+        { 1, 1,   NULL, node+3, node+1},
+        {10, 2,   NULL, node+4,   NULL},
+        {15, 0, node+1,   NULL,   NULL},
+        { 5, 0, node+0,   NULL,   NULL},
+        {20, 1, node+1, node+5, node+2},
+        {25, 0, node+4,   NULL,   NULL},
+    };
+    ASSERT_EQ(min_key(node), 1);
+    }
+
+    {
+    const int n_node = 6;
+    Node node[n_node] = {
+        {10, 1,   NULL, node+3, node+1},
+        { 2, 2,   NULL, node+4,   NULL},
+        {15, 0, node+1,   NULL,   NULL},
+        {50, 0, node+0,   NULL,   NULL},
+        {20, 1, node+1, node+5, node+2},
+        {25, 0, node+4,   NULL,   NULL},
+    };
+    ASSERT_EQ(min_key(node), 2);
+    }
+}
+
 //-------------------------------------------------------------------------------------
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
