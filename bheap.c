@@ -179,11 +179,6 @@ int merge_heap(Node* heap1, Node* heap2, Node** merged)
     return SUCCESS;
 }
 
-int is_valid_degree(int x){
-    // 0 or 2^k is valid degree.
-    return ((x & (x - 1)) == 0);
-}
-
 int num_tree_node_(Node* root, int num_node){
     Node* child = root->child;
     if(child){
@@ -209,3 +204,33 @@ int num_tree_node(Node* root)
     return 1 + num_tree_node_(root, 0); // 1 is root.
 }
 
+int is_pow_of_2(int x){
+    // 0 or 2^k is valid degree.
+    return ((x & (x - 1)) == 0);
+}
+
+int is_heap(Node* heap)
+{
+    // Check number of nodes of trees.
+    Node* root = heap;
+    while(root){
+        if(! is_pow_of_2(num_tree_node(root))){
+            //printf("{%d}",is_pow_of_2(num_tree_node(root)));
+            return FALSE;
+        }
+        root = root->sibling;
+    }
+    return TRUE;
+    /*
+    Node* prev = NULL; Node* curr = heap;
+    while(curr){
+        if(! is_pow_of_2(curr->degree)){
+            return FALSE;
+        }
+        prev = curr;
+        curr = curr->sibling;
+    }
+    return TRUE;
+    */
+    // min-heap property
+}

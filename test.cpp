@@ -451,18 +451,19 @@ TEST(heap, prop_test){
         {20, 1, node+1, node+5, node+2},
         {25, 0, node+4,   NULL,   NULL},
     };
-    //ASSERT_TRUE(is_heap(node));
+    ASSERT_TRUE(is_heap(node));
     ASSERT_EQ(num_tree_node(node), 2);
     ASSERT_EQ(num_tree_node(node+1), 4);
     }
 
-    {// invalid tree
+    {// invalid heap
     const int n_node = 3;
     Node node[n_node] = {
         {0, 1,   NULL, node+1,   NULL},
         {1, 0, node+0,   NULL, node+2},
         {2, 0, node+0,   NULL,   NULL},
     };
+    ASSERT_FALSE(is_heap(node));
     ASSERT_EQ(num_tree_node(node), 3);
     }
     /*
