@@ -69,6 +69,9 @@ void print_heap(Node* heap)
 {
     for(Node* curr = heap; curr; curr = curr->sibling){
         print_tree(curr);
+        if(curr->sibling){
+            puts("|");
+        }
     }
 }
 
