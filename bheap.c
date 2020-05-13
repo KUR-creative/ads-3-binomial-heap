@@ -205,32 +205,34 @@ int num_tree_node(Node* root)
 }
 
 int is_pow_of_2(int x){
-    // 0 or 2^k is valid degree.
+    // x = 0 or x = 2^k ?
     return ((x & (x - 1)) == 0);
+}
+
+int is_min_heap_tree(Node* root)
+{
+    Node* child = root->child;
+    if(child){
+        // compare to root
+        for(Node* c = child; c; c = c->sibling){
+            if(c->key < root->key ||
+               (! is_min_heap_tree(c))){
+                return FALSE;
+            }
+        }
+    }
+    return TRUE;
 }
 
 int is_heap(Node* heap)
 {
-    // Check number of nodes of trees.
-    Node* root = heap;
-    while(root){
-        if(! is_pow_of_2(num_tree_node(root))){
-            //printf("{%d}",is_pow_of_2(num_tree_node(root)));
+    for(Node* root = heap; root; root = root->sibling){
+        if((! is_pow_of_2(num_tree_node(root))) ||
+           (! is_min_heap_tree(root)))
+        {
             return FALSE;
         }
-        root = root->sibling;
     }
+
     return TRUE;
-    /*
-    Node* prev = NULL; Node* curr = heap;
-    while(curr){
-        if(! is_pow_of_2(curr->degree)){
-            return FALSE;
-        }
-        prev = curr;
-        curr = curr->sibling;
-    }
-    return TRUE;
-    */
-    // min-heap property
 }

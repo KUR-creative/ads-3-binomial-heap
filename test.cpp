@@ -434,11 +434,11 @@ TEST(merge_heap, case2_included){
 
 TEST(heap, prop_test){
     // empty heap
-    //ASSERT_TRUE(is_heap(NULL)); 
+    ASSERT_TRUE(is_heap(NULL)); 
 
     {// 1 elem heap
     Node node = {  1, 0, NULL, NULL, NULL };
-    //ASSERT_TRUE(is_heap(&node)); 
+    ASSERT_TRUE(is_heap(&node)); 
     }
 
     {// valid heap
@@ -451,9 +451,14 @@ TEST(heap, prop_test){
         {20, 1, node+1, node+5, node+2},
         {25, 0, node+4,   NULL,   NULL},
     };
-    ASSERT_TRUE(is_heap(node));
     ASSERT_EQ(num_tree_node(node), 2);
     ASSERT_EQ(num_tree_node(node+1), 4);
+
+    ASSERT_TRUE(is_heap(node));
+    node[n_node-1].key = 0;
+    ASSERT_FALSE(is_heap(node));
+    node[n_node-1].key = node[n_node-1].parent->key + 1;
+    ASSERT_TRUE(is_heap(node));
     }
 
     {// invalid heap
@@ -466,8 +471,6 @@ TEST(heap, prop_test){
     ASSERT_FALSE(is_heap(node));
     ASSERT_EQ(num_tree_node(node), 3);
     }
-    /*
-    */
 }
 //-------------------------------------------------------------------------------------
 int main(int argc, char **argv) {
