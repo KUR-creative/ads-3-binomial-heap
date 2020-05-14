@@ -578,21 +578,19 @@ TEST(heap, pop_min){
         print_heap(heap);
     }
 
-    puts("--------==========----------==========");
+    //puts("--------==========----------==========");
     for(int i = 0; i < max; i++){
         printf("======== i:%d ========\n", i);
         print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
-        //ASSERT_EQ(min(heap, NULL), i);
         ASSERT_EQ(pop_min(&heap), i);
-        puts("\nafter");
+        //puts("\nafter");
         //print_heap(heap);
     }
     }
 
     { // Pop elem from ascending order
     const int max = 10000;
-    //const int max = 10;
     Node node[max] = { 0, };
     for(int i = 0; i < max; i++){
         node[i].key = i;
@@ -607,12 +605,11 @@ TEST(heap, pop_min){
         ASSERT_EQ(min(heap,NULL), 0);
     }
 
-    puts("--------==========----------==========");
+    //puts("--------==========----------==========");
     for(int i = 0; i < max; i++){
         //printf("======== i:%d ========\n", i);
         //print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
-        //ASSERT_EQ(min(heap, NULL), i);
         ASSERT_EQ(pop_min(&heap), i);
         //puts("\nafter");
         //print_heap(heap);
@@ -634,12 +631,11 @@ TEST(heap, pop_min){
         insert(&heap, node+i);
         ASSERT_EQ(min(heap,NULL), i);
     }
-    puts("--------==========----------==========");
+    //puts("--------==========----------==========");
     for(int i = 0; i < max; i++){
         //printf("======== i:%d ========\n", i);
         //print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
-        //ASSERT_EQ(min(heap, NULL), i);
         ASSERT_EQ(pop_min(&heap), i);
         //puts("\nafter");
         //print_heap(heap);
@@ -664,14 +660,12 @@ TEST(heap, pop_min){
         //print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
         insert(&heap, node+i);
-        //ASSERT_EQ(min(heap,NULL), 0);
     }
-    puts("--------==========----------==========");
+    //puts("--------==========----------==========");
     for(int i = 0; i < max; i++){
         //printf("======== i:%d ========\n", i);
         //print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
-        //ASSERT_EQ(min(heap, NULL), i);
         pop_min(&heap);
         //puts("\nafter");
         //print_heap(heap);
