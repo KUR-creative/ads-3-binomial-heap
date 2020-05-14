@@ -651,8 +651,8 @@ TEST(heap, pop_min){
     srand(seed);
     printf("\nseed: %d \n", seed);
 
-    const int max = 10000;
-    //const int max = 10;
+    //const int max = 10000;
+    const int max = 10;
     Node node[max] = { 0, };
     for(int i = 0; i < max; i++){
         node[i].key = rand() % max;
@@ -672,13 +672,11 @@ TEST(heap, pop_min){
         //print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
         //ASSERT_EQ(min(heap, NULL), i);
-        //ASSERT_EQ(pop_min(&heap), i);
+        pop_min(&heap);
         //puts("\nafter");
         //print_heap(heap);
     }
     }
-    /*
-    */
 }
 
 TEST(heap, min){
