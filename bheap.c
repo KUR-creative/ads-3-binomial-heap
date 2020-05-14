@@ -192,37 +192,20 @@ int insert(Node** heap, Node* node)
     return SUCCESS;
 }
 
-int min_key(Node* heap)
+// Return is minimum key.
+int min(Node* heap, Node** min_node)
 {
     Key min = INT_MAX;
     for(Node* root = heap; root; root = root->sibling){
         if(min > root->key){
             min = root->key;
+            if(min_node){ // NULL means: Ignore min_node
+                *min_node = root;
+            }
         }
     }
     return min;
 }
-
-/*
-int num_tree_node_(Node* root, int num_node){
-    Node* child = root->child;
-    if(child){
-        int num_child = 0;
-        while(child){
-            //num_child++;
-//printf("down root_key[%d] #node[%d] #child[%d]\n", root->key, num_node, num_child);
-            num_child += num_tree_node_(
-                child, num_node + num_child);
-            child = child->sibling;
-        }
-        return num_node;
-    }else{
-        printf("up   root_key[%d] #node[%d]\n", root->key, num_node);
-        //return num_node;
-        return 1;
-    }
-}
-*/
 
 // TODO: tail recursion version?
 int num_tree_node_(Node* parent, int num_node){
