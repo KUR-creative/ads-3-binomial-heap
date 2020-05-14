@@ -19,6 +19,7 @@ typedef struct Node {
 } Node;
 // Empty heap is NULL pointer(0 Node).
 
+#define GET(x, prop, none)   ((x) ? (x)->prop : (none))
 void print_node(Node* node);
 void print_tree(Node* root);
 void print_roots(Node* head, Node* tail);

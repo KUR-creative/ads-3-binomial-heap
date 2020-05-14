@@ -192,6 +192,101 @@ int insert(Node** heap, Node* node)
     return SUCCESS;
 }
 
+int pop_min(Node** heap)
+{
+    if(*heap == NULL) {
+        return INT_MAX;
+    }
+
+    // Get min prev and min node
+    Key min_key = INT_MAX;
+    Node* min_prev = NULL; Node* min_node;
+
+    Node* prev = NULL; Node* root = *heap;
+    for(; root; prev = root, root = root->sibling){
+        if(min_key > root->key){
+            min_key = root->key;
+            min_prev = prev;
+            min_node = root;
+        }
+    }
+
+    puts("--- WTFWTF ---");
+    printf("min_prev[%d]\n",GET(min_prev, key, -1));
+    printf("min_node[%d]\n",GET(min_node, key, -1));
+    printf("min_prev->[%p]\n",GET(min_prev, sibling, NULL));
+    // Unlink min_prev -> min_node
+    if(min_prev){
+        min_prev->sibling = min_node->sibling;
+    }
+    if(min_node == *heap){
+        *heap = min_node->sibling;
+    }
+    puts("unlinked");
+    printf("min_prev[%d]\n",GET(min_prev, key, -1));
+    printf("min_node[%d]\n",GET(min_node, key, -1));
+    printf("min_prev->[%p]\n",GET(min_prev, sibling, NULL));
+
+    // Save children from back to front.
+    int deg = min_node->degree;
+    Node* children[deg];
+
+    int num_child = 0;
+    Node* child = min_node->child;
+    while(child){
+        children[deg - 1 - num_child] = child;
+        num_child++;
+        child = child->sibling;
+    }
+    
+    /*
+    printf("===============sib: ");
+    for(Node* c = min_node->child; c; c = c->sibling){
+        printf("[%d]", c->key);
+    }
+    printf("\n------------ch: ");
+    for(int i = 0; i < num_child; i++){
+        printf("[%d]", children[i]->key);
+    }
+    */
+
+    // Reverse children linkage
+    //printf("=======================wtf: %d \n", num_child);
+    if(num_child > 0){
+        Node* prev; Node* curr;
+        for(int idx = 1; idx < num_child; idx++){
+            prev = children[idx - 1];
+            curr = children[idx];
+            prev->sibling = curr;
+            //printf("\np[%d] c[%d]", (prev ? prev->key : -1), (curr ? curr->key : -1));
+        }
+        curr->sibling = NULL; // last elem->(nil)
+
+        merge_heap(*heap, children[0], heap);
+    }
+
+    puts("------ *heap ------");
+    print_heap(*heap);
+    if(num_child > 1){
+        puts("--- children[0] ---");
+        print_heap(children[0]);
+    }
+
+    /*
+    printf("\n\nsib: ");
+    for(Node* c = min_node->child; c; c = c->sibling){
+        printf("[%d]", c->key);
+    }
+    printf("\nch: ");
+    for(Node* c = children[0]; c; c = c->sibling){
+        printf("[%d]", c->key);
+    }
+    */
+
+
+    return min_key;
+}
+
 // Return is minimum key.
 int min(Node* heap, Node** min_node)
 {
