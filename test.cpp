@@ -586,13 +586,13 @@ TEST(heap, pop_min){
         //ASSERT_EQ(min(heap, NULL), i);
         ASSERT_EQ(pop_min(&heap), i);
         puts("\nafter");
-        print_heap(heap);
+        //print_heap(heap);
     }
     }
 
     { // Pop elem from ascending order
-    //const int max = 10000;
-    const int max = 10;
+    const int max = 10000;
+    //const int max = 10;
     Node node[max] = { 0, };
     for(int i = 0; i < max; i++){
         node[i].key = i;
@@ -600,8 +600,8 @@ TEST(heap, pop_min){
 
     Node* heap = NULL; 
     for(int i = 0; i < max; i++){
-        printf("======== i:%d ========\n", i);
-        print_heap(heap);
+        //printf("======== i:%d ========\n", i);
+        //print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
         insert(&heap, node+i);
         ASSERT_EQ(min(heap,NULL), 0);
@@ -609,17 +609,16 @@ TEST(heap, pop_min){
 
     puts("--------==========----------==========");
     for(int i = 0; i < max; i++){
-        printf("======== i:%d ========\n", i);
-        print_heap(heap);
+        //printf("======== i:%d ========\n", i);
+        //print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
         //ASSERT_EQ(min(heap, NULL), i);
         ASSERT_EQ(pop_min(&heap), i);
-        puts("\nafter");
-        print_heap(heap);
+        //puts("\nafter");
+        //print_heap(heap);
     }
     }
 
-    /*
     { // Descending order insertion
     const int max = 10000;
     Node node[max] = { 0, };
@@ -635,6 +634,16 @@ TEST(heap, pop_min){
         insert(&heap, node+i);
         ASSERT_EQ(min(heap,NULL), i);
     }
+    puts("--------==========----------==========");
+    for(int i = 0; i < max; i++){
+        //printf("======== i:%d ========\n", i);
+        //print_heap(heap);
+        ASSERT_TRUE(is_heap(heap));
+        //ASSERT_EQ(min(heap, NULL), i);
+        ASSERT_EQ(pop_min(&heap), i);
+        //puts("\nafter");
+        //print_heap(heap);
+    }
     }
 
     { // Random insertion
@@ -643,6 +652,7 @@ TEST(heap, pop_min){
     printf("\nseed: %d \n", seed);
 
     const int max = 10000;
+    //const int max = 10;
     Node node[max] = { 0, };
     for(int i = 0; i < max; i++){
         node[i].key = rand() % max;
@@ -656,7 +666,18 @@ TEST(heap, pop_min){
         insert(&heap, node+i);
         //ASSERT_EQ(min(heap,NULL), 0);
     }
+    puts("--------==========----------==========");
+    for(int i = 0; i < max; i++){
+        //printf("======== i:%d ========\n", i);
+        //print_heap(heap);
+        ASSERT_TRUE(is_heap(heap));
+        //ASSERT_EQ(min(heap, NULL), i);
+        //ASSERT_EQ(pop_min(&heap), i);
+        //puts("\nafter");
+        //print_heap(heap);
     }
+    }
+    /*
     */
 }
 

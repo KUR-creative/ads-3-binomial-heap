@@ -265,24 +265,14 @@ int pop_min(Node** heap)
         merge_heap(*heap, children[0], heap);
     }
 
+    /*
     puts("------ *heap ------");
     print_heap(*heap);
     if(num_child > 1){
         puts("--- children[0] ---");
         print_heap(children[0]);
     }
-
-    /*
-    printf("\n\nsib: ");
-    for(Node* c = min_node->child; c; c = c->sibling){
-        printf("[%d]", c->key);
-    }
-    printf("\nch: ");
-    for(Node* c = children[0]; c; c = c->sibling){
-        printf("[%d]", c->key);
-    }
     */
-
 
     return min_key;
 }
