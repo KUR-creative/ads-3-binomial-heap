@@ -224,7 +224,7 @@ int num_tree_node_(Node* root, int num_node){
 }
 */
 
-// TODO: rail recursion version?
+// TODO: tail recursion version?
 int num_tree_node_(Node* parent, int num_node){
     if(parent){
         Node* child = parent->child;

@@ -505,7 +505,7 @@ TEST(heap, prop_test){
 
 TEST(heap, insert){
 //TEST(DISABLED_heap, insert){
-    { // ascending order insertion
+    { // Ascending order insertion
     const int max = 100;//000;
     Node node[max] = { 0, };
     for(int i = 0; i < max; i++){
@@ -514,15 +514,15 @@ TEST(heap, insert){
 
     Node* heap = NULL; 
     for(int i = 0; i < max; i++){
-        printf("======== i:%d ========\n", i);
-        print_heap(heap);
+        //printf("======== i:%d ========\n", i);
+        //print_heap(heap);
         ASSERT_TRUE(is_heap(heap));
         insert(&heap, node+i);
         ASSERT_EQ(min_key(heap), 0);
     }
     }
 
-    { // descending order insertion
+    { // Descending order insertion
     const int max = 10000;
     Node node[max] = { 0, };
     for(int i = 0; i < max; i++){
@@ -536,6 +536,27 @@ TEST(heap, insert){
         ASSERT_TRUE(is_heap(heap));
         insert(&heap, node+i);
         ASSERT_EQ(min_key(heap), i);
+    }
+    }
+
+    { // Random insertion
+    int seed = time(NULL);
+    srand(seed);
+    printf("\nseed: %d \n", seed);
+
+    const int max = 10000;
+    Node node[max] = { 0, };
+    for(int i = 0; i < max; i++){
+        node[i].key = rand() % max;
+    }
+
+    Node* heap = NULL; 
+    for(int i = 0; i < max; i++){
+        //printf("======== i:%d ========\n", i);
+        //print_heap(heap);
+        ASSERT_TRUE(is_heap(heap));
+        insert(&heap, node+i);
+        //ASSERT_EQ(min_key(heap), 0);
     }
     }
 }
