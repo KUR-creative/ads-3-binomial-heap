@@ -29,8 +29,8 @@ int link_tree(Node* parent, Node* child);
 Node* merge_roots(Node* heap1, Node* heap2);
 int merge_heap(Node* heap1, Node* heap2, Node** merged);
 int insert(Node** heap, Node* node);
-int pop_min(Node** heap);
-int min(Node* heap, Node** min_node);
+Key pop_min(Node** heap);
+Key min(Node* heap, Node** min_node);
 
 int is_heap(Node* heap);
 int num_tree_node(Node* root);
